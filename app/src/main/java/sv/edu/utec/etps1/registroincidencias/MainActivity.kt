@@ -41,27 +41,30 @@ fun RegistroIncidenciasApp() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Registro de incidencias",
+            text = "Control de Evaluaciones",
             style = MaterialTheme.typography.headlineMedium
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = "Reporta y da seguimiento a problemas de equipos, " +
-                    "infraestructura o servicios."
+            text = "Gestiona y da seguimiento a tus calificaciones, " +
+                    "entregas y proyectos del ciclo actual.."
         )
         Spacer(modifier = Modifier.height(24.dp))
         Card(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Estado inicial",
+                    text = "Estado",
                     style = MaterialTheme.typography.titleMedium
                 )
-                Text(text = "Aún no hay incidencias registradas.")
+                Text(text = "Aún no hay evaluaciones registradas en el sistema.")
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
         Button(onClick = { /* Se implementará en una unidad posterior */ }) {
-            Text(text = "Crear reporte")
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "Agregar evaluación")
+                Text(text = "Prototipo inicial - Unidad 1")
+            }
         }
     }
 }
