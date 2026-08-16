@@ -47,7 +47,7 @@ fun RegistroIncidenciasApp() {
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = "Gestiona y da seguimiento a tus calificaciones, " +
-                    "entregas y proyectos del ciclo actual.."
+                    "entregas y proyectos del ciclo actual."
         )
         Spacer(modifier = Modifier.height(24.dp))
         Card(modifier = Modifier.fillMaxWidth()) {
