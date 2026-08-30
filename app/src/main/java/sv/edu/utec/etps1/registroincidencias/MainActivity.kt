@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -41,29 +42,46 @@ fun RegistroIncidenciasApp() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Control de Evaluaciones",
+            text = "Control de incidencias",
             style = MaterialTheme.typography.headlineMedium
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Gestiona y da seguimiento a tus calificaciones, " +
-                    "entregas y proyectos del ciclo actual."
+            text = "Completa los datos básicos del reporte."
         )
+
         Spacer(modifier = Modifier.height(24.dp))
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            label = { Text("Título") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            label = { Text("Descripción") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(
+            onClick = { },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Crear reporte")
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         Card(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "Estado",
-                    style = MaterialTheme.typography.titleMedium
-                )
-                Text(text = "Aún no hay evaluaciones registradas en el sistema.")
-            }
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        Button(onClick = { /* Se implementará en una unidad posterior */ }) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Agregar evaluación")
-                Text(text = "Prototipo inicial - Unidad 1")
+                Text(text = "Aún no hay una incidencia registrada.")
             }
         }
     }
