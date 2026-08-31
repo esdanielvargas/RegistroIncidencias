@@ -1,4 +1,4 @@
-# Control de Evaluaciones - Registro de Incidencias
+# Registro Académico (Registro de Incidencias)
 
 Aplicación móvil para el sistema operativo Android diseñada para gestionar y dar seguimiento a calificaciones, entregas y proyectos académicos del ciclo actual.
 
@@ -10,7 +10,10 @@ Aplicación móvil para el sistema operativo Android diseñada para gestionar y 
 
 ## 🚀 Características
 *   Interfaz moderna construida con componentes declarativos.
-*   Pantalla principal que muestra el estado actual de las evaluaciones registradas en el sistema.
+*   Pantalla principal con campos de captura para el nombre de la actividad y la calificación obtenida.
+*   Muestra el estado actual de las evaluaciones registradas en el sistema.
 
 ## 📝 Notas Académicas
 Este proyecto fue desarrollado como parte de la guía práctica de la asignatura Técnicas de Producción Industrial de Software I (ETPS1) de la Universidad Tecnológica de El Salvador (UTEC).
+
+**Autor:** Daniel Marcelo López Vargas (Daniel Vargas)
