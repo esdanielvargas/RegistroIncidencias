@@ -1,17 +1,28 @@
-# Registro Académico (Registro de Incidencias)
+# Registro de Incidencias
+Aplicación Android orientada al registro, reporte y seguimiento de problemas relacionados con equipos, infraestructura o servicios.
 
-Aplicación móvil para el sistema operativo Android diseñada para gestionar y dar seguimiento a calificaciones, entregas y proyectos académicos del ciclo actual.
+## Tecnologías empleadas
+* Android Studio
+* Kotlin
+* Jetpack Compose
+* Control de versiones con Git y GitHub
 
-## 🛠️ Tecnologías y Entorno
-El proyecto está desarrollado utilizando Kotlin y Jetpack Compose para la interfaz de usuario. Como entorno de desarrollo se emplea Android Studio Quail 3 (2026.1.3), y el control de versiones se gestiona mediante Git y GitHub.
+## Estado del proyecto
+**Características funcionales:**
+* Interfaz inicial interactiva que permite capturar el título de la incidencia y una breve descripción.
+* Implementación de estado reactivo utilizando `remember` y `mutableStateOf`.
+* Retroalimentación visual inmediata que confirma la preparación del reporte al presionar el botón principal.
 
-## 🚀 Estado Actual del Proyecto
-Actualmente funciona el diseño de la pantalla principal, la cual cuenta con una interfaz moderna y campos de captura visuales para el nombre de la actividad y la calificación obtenida. Aún falta implementar el comportamiento lógico de los componentes, la captura real de los datos introducidos, las validaciones de los campos y la persistencia de la información.
+**Pendiente de implementación:**
+* Validación estricta de los campos de texto.
+* Persistencia de los datos capturados (conexión a base de datos local o API remota).
 
-## 📂 Cómo abrir el proyecto
-Para revisar el código, clona este repositorio en tu equipo de forma local. Posteriormente, abre Android Studio, selecciona la opción para abrir un proyecto existente y busca la carpeta raíz clonada. Es necesario esperar a que Gradle sincronice todas las dependencias antes de intentar ejecutar la aplicación en el emulador.
+## Registro de avances
+* **Semana 6:** Se transformó la interfaz estática en una pantalla con interacción. Ahora los campos capturan texto en tiempo real y la interfaz responde mostrando un mensaje de confirmación temporal usando la memoria del estado de la aplicación.
 
-## 📝 Notas Académicas
-Este proyecto fue desarrollado como parte de la guía práctica de la asignatura Técnicas de Producción Industrial de Software I (ETPS1) de la Universidad Tecnológica de El Salvador (UTEC).
+## Instrucciones de ejecución
+1. Clona este repositorio en tu entorno local.
+2. Abre Android Studio y selecciona la opción "Open" para cargar el directorio del proyecto.
+3. Espera a que la sincronización de Gradle finalice por completo antes de ejecutar la aplicación en el emulador o dispositivo físico.
 
-**Autor:** Daniel Marcelo López Vargas (Daniel Vargas)
+_**Autor:** Daniel Marcelo López Vargas_

@@ -22,6 +22,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,6 +57,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun RegistroIncidenciasApp() {
+    var title by remember { mutableStateOf("") }
+    var caption by remember { mutableStateOf("") }
+    var message by remember { mutableStateOf("Aún no hay reporte creado.") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -61,13 +69,13 @@ fun RegistroIncidenciasApp() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Registro Académico",
+            text = "Registro de incidencias",
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Ingresa los datos de la actividad para llevar el control y registro de cada evaluación del ciclo.",
+            text = "Reporta y da seguimiento a problemas de equipos, infraestructura o servicios.",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium.merge(
                 TextStyle(
@@ -81,32 +89,32 @@ fun RegistroIncidenciasApp() {
         Spacer(modifier = Modifier.height(24.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = { Text("Título de la actividad") },
+            value = title,
+            onValueChange = { title = it },
+            label = { Text("Título de la incidencia") },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = { Text("Calificación obtenida") },
+            value = caption,
+            onValueChange = { caption = it },
+            label = { Text("Descripción breve") },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(18.dp))
 
         Button(
-            onClick = { },
+            onClick = {message = "Reporte preparado: $title"},
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(54.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0A0A0A))
         ) {
-            Text(text = "Guardar calificación")
+            Text(text = "Crear reporte")
         }
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -118,7 +126,7 @@ fun RegistroIncidenciasApp() {
             colors = CardDefaults.cardColors(containerColor = Color(0xFFECECEC))
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = "Aún no hay calificaciones registradas.")
+                Text(text = message)
             }
         }
     }
