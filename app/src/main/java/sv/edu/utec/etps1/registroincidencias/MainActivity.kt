@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -23,11 +25,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.LineBreak
@@ -57,25 +62,31 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun RegistroIncidenciasApp() {
-    var title by remember { mutableStateOf("") }
-    var caption by remember { mutableStateOf("") }
-    var message by remember { mutableStateOf("Aún no hay reporte creado.") }
+    var asignatura by remember { mutableStateOf("") }
+    var actividad by remember { mutableStateOf("") }
+    var calificacion by remember { mutableStateOf("") }
+    var mensajeError by remember { mutableStateOf("") }
+    val historial = remember { mutableStateListOf<String>() }
+    val focusAsignatura = remember { FocusRequester() }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
+            .padding(24.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(40.dp))
+
         Text(
-            text = "Registro de incidencias",
+            text = "Registro Académico",
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(10.dp))
         Text(
-            text = "Reporta y da seguimiento a problemas de equipos, infraestructura o servicios.",
+            text = "Ingrese los datos de la actividad para llevar el control y registro de cada evaluación del ciclo.",
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium.merge(
                 TextStyle(
@@ -89,46 +100,86 @@ fun RegistroIncidenciasApp() {
         Spacer(modifier = Modifier.height(24.dp))
 
         OutlinedTextField(
-            value = title,
-            onValueChange = { title = it },
-            label = { Text("Título de la incidencia") },
+            value = asignatura,
+            onValueChange = { asignatura = it },
+            label = { Text("Asignatura") },
+            modifier = Modifier.fillMaxWidth().focusRequester(focusAsignatura)
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        OutlinedTextField(
+            value = actividad,
+            onValueChange = { actividad = it },
+            label = { Text("Título de la actividad") },
             modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(modifier = Modifier.height(4.dp))
 
         OutlinedTextField(
-            value = caption,
-            onValueChange = { caption = it },
-            label = { Text("Descripción breve") },
+            value = calificacion,
+            onValueChange = { calificacion = it },
+            label = { Text("Calificación obtenida") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(8.dp))
+
+        if (mensajeError.isNotEmpty()) {
+            Text(text = mensajeError, color = Color.Red, style = MaterialTheme.typography.bodySmall)
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = {message = "Reporte preparado: $title"},
+            onClick = {
+                if (asignatura.isBlank() || actividad.isBlank()) {
+                    mensajeError = "Error: La asignatura y la actividad son obligatorias."
+                } else {
+                    mensajeError = ""
+                    val estadoCalificacion = if (calificacion.isNotBlank()) calificacion else "Pendiente de calificar"
+
+                    historial.add(0, "Asignatura: $asignatura.\nActividad: $actividad.\nCalificación: $estadoCalificacion")
+
+                    asignatura = ""
+                    actividad = ""
+                    calificacion = ""
+
+                    focusAsignatura.requestFocus()
+                }
+            },
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(54.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0A0A0A))
         ) {
-            Text(text = "Crear reporte")
+            Text(text = "Guardar actividad")
         }
 
         Spacer(modifier = Modifier.height(18.dp))
         HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
         Spacer(modifier = Modifier.height(18.dp))
 
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFECECEC))
-        ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                Text(text = message)
+        if (historial.isEmpty()) {
+            Text(text = "Aún no hay calificaciones registradas.", color = Color.Gray)
+        } else {
+            historial.forEach { registro ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFECECEC))
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(text = registro)
+                    }
+                }
             }
         }
+
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
