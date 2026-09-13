@@ -1,4 +1,4 @@
-# Registro de Incidencias
+# Registro de Incidencias (Registro Académico)
 Aplicación Android orientada al registro, reporte y seguimiento de problemas relacionados con equipos, infraestructura o servicios.
 
 ## Tecnologías empleadas
@@ -19,6 +19,7 @@ Aplicación Android orientada al registro, reporte y seguimiento de problemas re
 
 ## Registro de avances
 * **Semana 6:** Se transformó la interfaz estática en una pantalla con interacción. Ahora los campos capturan texto en tiempo real y la interfaz responde mostrando un mensaje de confirmación temporal usando la memoria del estado de la aplicación.
+* **Semana 7:** Se implementó un historial de registros en pantalla, validación de entrada de datos y limpieza automática del formulario tras cada guardado exitoso.
 
 ## Instrucciones de ejecución
 1. Clona este repositorio en tu entorno local.
