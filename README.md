@@ -9,9 +9,11 @@ Aplicación Android orientada al registro, reporte y seguimiento de problemas re
 
 ## Estado del proyecto
 **Características funcionales:**
-* Interfaz inicial interactiva con campos de entrada (`OutlinedTextField`) para capturar la asignatura, el título de la actividad y la calificación.
-* Implementación de estado reactivo utilizando `remember`, `mutableStateOf` y `mutableStateListOf` para almacenar y mostrar un historial de registros en tarjetas dinámicas.
-* Validación de datos obligatorios y limpieza automática del formulario tras cada guardado exitoso con redirección de enfoque.
+* Interfaz inicial interactiva con campos de entrada (`OutlinedTextField`) equipados con **teclados contextuales** para capturar la asignatura, el título de la actividad y la calificación.
+* **Selección de categorías táctil** mediante chips interactivos (`Modifier.clickable`) para clasificar entre "Actividad" y "Parcial".
+* Implementación de estado reactivo utilizando `remember`, `mutableStateOf` y `mutableStateListOf` para almacenar el historial de registros.
+* **Interfaz semántica dinámica** que genera tarjetas con círculos de colores vivos basados en la calificación obtenida, o identificadores grises para actividades pendientes ("-").
+* Validación de datos obligatorios, limpieza automática del formulario y redirección de enfoque tras cada guardado exitoso.
 
 **Pendiente de implementación:**
 * Persistencia de los datos capturados (conexión a base de datos local o API remota).
@@ -22,6 +24,7 @@ Aplicación Android orientada al registro, reporte y seguimiento de problemas re
 * **Semana 5:** Configuración formal del control de versiones mediante Git y GitHub, establecimiento de la estructura base del repositorio remoto y documentación inicial del proyecto a través del archivo `README`.
 * **Semana 6:** Se transformó la interfaz estática en una pantalla con interacción. Ahora los campos capturan texto en tiempo real y la interfaz responde mostrando un mensaje de confirmación temporal usando la memoria del estado de la aplicación (`remember` y `mutableStateOf`).
 * **Semana 7:** Se implementó un historial de registros en pantalla mediante una lista reactiva (`mutableStateListOf`), validación de entrada de datos obligatorios y limpieza automática de los campos de texto del formulario tras cada guardado exitoso.
+* **Semana 10:** Se configuró el teclado contextual en los campos de entrada mediante `KeyboardOptions`, implementando `KeyboardType.Text`, `KeyboardType.Number` y `KeyboardCapitalization.Sentences` para adaptar el formato de escritura, junto con `ImeAction.Next` e `ImeAction.Done` para optimizar la navegación del cursor. Adicionalmente, se integró una interacción táctil de alto nivel utilizando `Modifier.clickable` para la selección dinámica de la categoría de la evaluación.
 
 ## Instrucciones de ejecución
 1. Clona este repositorio en tu entorno local.
