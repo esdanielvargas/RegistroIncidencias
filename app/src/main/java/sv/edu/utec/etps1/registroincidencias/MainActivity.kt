@@ -1,5 +1,6 @@
 package sv.edu.utec.etps1.registroincidencias
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -40,8 +41,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -103,15 +104,19 @@ fun RegistroIncidenciasApp() {
     val historial = remember { mutableStateListOf<Evaluacion>() }
     val focusAsignatura = remember { FocusRequester() }
 
+    // VARIABLES Y ESTADO PARA EL SENSOR Y DIAGNÓSTICO
     val context = LocalContext.current
     val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
     var mostrarErrorSensor by remember { mutableStateOf(false) }
+    var sensorDisponible by remember { mutableStateOf(false) }
+    var estadoInterpretado by remember { mutableStateOf("Esperando lecturas...") }
+    var lecturasSensor by remember { mutableStateOf("X: 0.00 | Y: 0.00 | Z: 0.00") }
 
     LaunchedEffect(mostrarErrorSensor) {
         if (mostrarErrorSensor) {
-            mensajeError = "Sensor de movimiento no disponible."
+            mensajeError = "Sensor de movimiento no disponible en este dispositivo."
             delay(3000.milliseconds)
             mensajeError = ""
             mostrarErrorSensor = false
@@ -120,27 +125,40 @@ fun RegistroIncidenciasApp() {
 
     DisposableEffect(accelerometer) {
         if (accelerometer == null) {
+            sensorDisponible = false
             mostrarErrorSensor = true
+            estadoInterpretado = "Sensor no disponible o limitado"
             onDispose { }
         } else {
+            sensorDisponible = true
             val listener = object : SensorEventListener {
+                @SuppressLint("DefaultLocale")
                 override fun onSensorChanged(event: SensorEvent) {
                     val x = event.values[0]
                     val y = event.values[1]
                     val z = event.values[2]
+
+                    // Formato legible de coordenadas
+                    lecturasSensor = String.format("X: %.2f | Y: %.2f | Z: %.2f", x, y, z)
 
                     val gX = x / SensorManager.GRAVITY_EARTH
                     val gY = y / SensorManager.GRAVITY_EARTH
                     val gZ = z / SensorManager.GRAVITY_EARTH
                     val gForce = sqrt((gX * gX + gY * gY + gZ * gZ).toDouble())
 
-                    if (gForce > 2.5) {
+                    if (gForce > 2.2) {
+                        estadoInterpretado = "Movimiento o agitación detectada"
+
+                        // Limpiar formulario al agitar
                         asignatura = ""
                         actividad = ""
                         calificacion = ""
                         mensajeError = ""
+                    } else {
+                        estadoInterpretado = "Dispositivo estable / sin agitación"
                     }
                 }
+
                 override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
             }
 
@@ -293,6 +311,16 @@ fun RegistroIncidenciasApp() {
         HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
         Spacer(modifier = Modifier.height(24.dp))
 
+        // SECCIÓN 1: HISTORIAL DE EVALUACIONES
+        Text(
+            text = "Historial de Registros",
+            modifier = Modifier.fillMaxWidth(),
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            textAlign = TextAlign.Start
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+
         if (historial.isEmpty()) {
             Text(text = "Aún no hay actividades registradas.", color = Color.Gray)
         } else {
@@ -342,7 +370,62 @@ fun RegistroIncidenciasApp() {
                 }
             }
         }
+
         Spacer(modifier = Modifier.height(24.dp))
+        HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // SECCIÓN 2: DIAGNÓSTICO DEL DISPOSITIVO
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F4F8)),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = "Diagnóstico del dispositivo",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    color = Color(0xFF1A237E)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = if (sensorDisponible) "Sensor: Acelerómetro (Disponible)" else "Sensor: No disponible / Emulador limitado",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = if (sensorDisponible) Color(0xFF2E7D32) else Color(0xFFC62828)
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = "Lectura del sensor:",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+                Text(
+                    text = lecturasSensor,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.DarkGray
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Interpretación: $estadoInterpretado",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF1565C0)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 
