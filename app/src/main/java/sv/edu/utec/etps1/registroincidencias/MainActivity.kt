@@ -7,6 +7,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
@@ -75,8 +76,11 @@ data class Evaluacion(
 )
 
 class MainActivity : ComponentActivity() {
+    private val tag = "TPIS1_LIFECYCLE"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(tag, "onCreate")
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 android.graphics.Color.TRANSPARENT,
@@ -88,6 +92,31 @@ class MainActivity : ComponentActivity() {
                 RegistroIncidenciasApp()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(tag, "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(tag, "onResume")
+    }
+
+    override fun onPause() {
+        Log.d(tag, "onPause")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        Log.d(tag, "onStop")
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        Log.d(tag, "onDestroy")
+        super.onDestroy()
     }
 }
 
@@ -104,7 +133,6 @@ fun RegistroIncidenciasApp() {
     val historial = remember { mutableStateListOf<Evaluacion>() }
     val focusAsignatura = remember { FocusRequester() }
 
-    // VARIABLES Y ESTADO PARA EL SENSOR Y DIAGNÓSTICO
     val context = LocalContext.current
     val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -138,7 +166,6 @@ fun RegistroIncidenciasApp() {
                     val y = event.values[1]
                     val z = event.values[2]
 
-                    // Formato legible de coordenadas
                     lecturasSensor = String.format("X: %.2f | Y: %.2f | Z: %.2f", x, y, z)
 
                     val gX = x / SensorManager.GRAVITY_EARTH
@@ -148,8 +175,6 @@ fun RegistroIncidenciasApp() {
 
                     if (gForce > 2.2) {
                         estadoInterpretado = "Movimiento o agitación detectada"
-
-                        // Limpiar formulario al agitar
                         asignatura = ""
                         actividad = ""
                         calificacion = ""
@@ -311,7 +336,6 @@ fun RegistroIncidenciasApp() {
         HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
         Spacer(modifier = Modifier.height(24.dp))
 
-        // SECCIÓN 1: HISTORIAL DE EVALUACIONES
         Text(
             text = "Historial de Registros",
             modifier = Modifier.fillMaxWidth(),
@@ -375,7 +399,6 @@ fun RegistroIncidenciasApp() {
         HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
         Spacer(modifier = Modifier.height(24.dp))
 
-        // SECCIÓN 2: DIAGNÓSTICO DEL DISPOSITIVO
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F4F8)),
