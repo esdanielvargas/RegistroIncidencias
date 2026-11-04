@@ -44,7 +44,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -122,25 +122,25 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun RegistroIncidenciasApp() {
-    var asignatura by remember { mutableStateOf("") }
-    var actividad by remember { mutableStateOf("") }
-    var calificacion by remember { mutableStateOf("") }
-    var mensajeError by remember { mutableStateOf("") }
+    var asignatura by rememberSaveable { mutableStateOf("") }
+    var actividad by rememberSaveable { mutableStateOf("") }
+    var calificacion by rememberSaveable { mutableStateOf("") }
+    var mensajeError by rememberSaveable { mutableStateOf("") }
 
-    var categoriaSeleccionada by remember { mutableStateOf("Actividad") }
+    var categoriaSeleccionada by rememberSaveable { mutableStateOf("Actividad") }
     val categorias = listOf("Actividad", "Parcial")
 
-    val historial = remember { mutableStateListOf<Evaluacion>() }
-    val focusAsignatura = remember { FocusRequester() }
+    val historial = rememberSaveable { mutableStateListOf<Evaluacion>() }
+    val focusAsignatura = rememberSaveable { FocusRequester() }
 
     val context = LocalContext.current
     val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
-    var mostrarErrorSensor by remember { mutableStateOf(false) }
-    var sensorDisponible by remember { mutableStateOf(false) }
-    var estadoInterpretado by remember { mutableStateOf("Esperando lecturas...") }
-    var lecturasSensor by remember { mutableStateOf("X: 0.00 | Y: 0.00 | Z: 0.00") }
+    var mostrarErrorSensor by rememberSaveable { mutableStateOf(false) }
+    var sensorDisponible by rememberSaveable { mutableStateOf(false) }
+    var estadoInterpretado by rememberSaveable { mutableStateOf("Esperando lecturas...") }
+    var lecturasSensor by rememberSaveable { mutableStateOf("X: 0.00 | Y: 0.00 | Z: 0.00") }
 
     LaunchedEffect(mostrarErrorSensor) {
         if (mostrarErrorSensor) {
@@ -269,7 +269,8 @@ fun RegistroIncidenciasApp() {
             text = "Tipo de evaluación:",
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Start,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 16.sp,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row(
@@ -337,10 +338,10 @@ fun RegistroIncidenciasApp() {
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Historial de Registros",
+            text = "Historial de registros",
             modifier = Modifier.fillMaxWidth(),
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             textAlign = TextAlign.Start
         )
         Spacer(modifier = Modifier.height(12.dp))
@@ -440,7 +441,7 @@ fun RegistroIncidenciasApp() {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "Interpretación: $estadoInterpretado",
+                    text = estadoInterpretado,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF1565C0)
