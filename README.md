@@ -1,4 +1,4 @@
-# Registro de Incidencias (Registro Académico)
+# Registro Académico (RegistroIncidencias)
 Aplicación Android orientada al registro, reporte y seguimiento de problemas relacionados con equipos, infraestructura o servicios.
 
 ## Tecnologías empleadas
@@ -29,6 +29,7 @@ Aplicación Android orientada al registro, reporte y seguimiento de problemas re
 * **Semana 11:** Integración inicial de hardware utilizando `SensorManager` para leer los eventos del acelerómetro. Se implementó un flujo que limpia el formulario de captura al agitar el dispositivo, asegurando el manejo seguro del ciclo de vida del sensor con `DisposableEffect` y mostrando retroalimentación en pantalla si el hardware no está disponible.
 * **Semana 12:** Incorporación de la sección "Diagnóstico del dispositivo". Se añadió lectura en tiempo real del acelerómetro ($X, Y, Z$), verificación de disponibilidad de hardware, interpretación comprensible del estado del sensor para el usuario ("Estable" vs "Movimiento detectado") y gestión controlada del ciclo de vida del recurso mediante `DisposableEffect`.
 * **Semana 14:** Instrumentación de la clase `MainActivity` implementando los callbacks principales del ciclo de vida (`onCreate`, `onStart`, `onResume`, `onPause`, `onStop`, `onDestroy`) para registrar y documentar mediante Logcat los cambios de estado ante las acciones del usuario y del sistema.
+* **Semana 15:** Implementación de `rememberSaveable` en las variables de estado de la interfaz para garantizar la conservación y restauración automática de los datos (como los campos de texto y entradas transitorias) frente a cambios de configuración y recreaciones de la Activity (por ejemplo, al rotar la pantalla del dispositivo).
 
 ## Instrucciones de ejecución
 1. Clona este repositorio en tu entorno local.
